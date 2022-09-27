@@ -1,6 +1,7 @@
 package com.leo23.filter;
 
 import com.alibaba.fastjson.JSON;
+import com.leo23.common.BaseContext;
 import com.leo23.common.R;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.util.AntPathMatcher;
@@ -40,7 +41,9 @@ public class LoginCheckFilter implements Filter {
         }
         // 判断登录状态，如果已登录，放行
         if (request.getSession().getAttribute("employee") != null) {
-            log.info("用户已登录, id: {}", request.getSession().getAttribute("employee"));
+            Long empId = (Long) request.getSession().getAttribute("employee");
+            BaseContext.setCurrentId(empId);
+            log.info("用户已登录, id: {}", empId);
             filterChain.doFilter(request, response);
             return;
         }
