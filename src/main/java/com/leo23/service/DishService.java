@@ -13,4 +13,7 @@ public interface DishService extends IService<Dish> {
 
     // 更新菜品信息, 同时更新口味信息
     public void updateWithFlavor(DishDto dishDto);
+
+    // 1.删除口味信息 2.删除菜品信息
+    public void deleteWithFlavor(Long ids);
 }
