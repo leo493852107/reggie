@@ -2,6 +2,7 @@ package com.leo23.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.leo23.common.MyUtils;
 import com.leo23.dto.DishDto;
 import com.leo23.entity.Dish;
 import com.leo23.entity.DishFlavor;
@@ -10,6 +11,7 @@ import com.leo23.service.DishFlavorService;
 import com.leo23.service.DishService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -20,6 +22,8 @@ import java.util.stream.Collectors;
 @Service
 @Slf4j
 public class DishServiceImpl extends ServiceImpl<DishMapper, Dish> implements DishService {
+    @Value("${reggie.path}")
+    private String filePath;
     @Resource
     private DishFlavorService dishFlavorService;
 
@@ -61,6 +65,12 @@ public class DishServiceImpl extends ServiceImpl<DishMapper, Dish> implements Di
 
     @Override
     public void updateWithFlavor(DishDto dishDto) {
+        // 1.先检查图片是否重新上传，如果重新上传,删除之前图片, 2.更新dish
+        Dish oldDish = this.getById(dishDto.getId());
+        if (oldDish.getImage() != dishDto.getImage()) {
+            MyUtils utils = new MyUtils();
+            utils.deleteFile(filePath + oldDish.getImage());
+        }
         // 更新dish
         this.updateById(dishDto);
 
@@ -84,6 +94,10 @@ public class DishServiceImpl extends ServiceImpl<DishMapper, Dish> implements Di
         LambdaQueryWrapper<DishFlavor> wrapper = new LambdaQueryWrapper<>();
         wrapper.eq(DishFlavor::getDishId, ids);
         dishFlavorService.remove(wrapper);
+
+        // 删除 图片文件
+        MyUtils utils = new MyUtils();
+        utils.deleteFile(filePath + this.getById(ids).getImage());
         // 删除 dish
         super.removeById(ids);
     }
