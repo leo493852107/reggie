@@ -66,6 +66,7 @@ public class AddressBookController {
      *
      * @return
      */
+    @GetMapping("default")
     public R<AddressBook> getDefault() {
         LambdaQueryWrapper<AddressBook> wrapper = new LambdaQueryWrapper<>();
         wrapper.eq(AddressBook::getUserId, BaseContext.getCurrentId());
