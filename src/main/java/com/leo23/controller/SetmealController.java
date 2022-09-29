@@ -6,6 +6,7 @@ import com.leo23.common.R;
 import com.leo23.dto.SetmealDto;
 import com.leo23.entity.Category;
 import com.leo23.entity.Setmeal;
+import com.leo23.entity.SetmealDish;
 import com.leo23.service.CategoryService;
 import com.leo23.service.SetmealDishService;
 import com.leo23.service.SetmealService;
@@ -92,4 +93,13 @@ public class SetmealController {
         setmealService.removeWithDish(ids);
         return R.success("套餐数据删除成功");
     }
+//
+//    @GetMapping("/{id}")
+//    public R<SetmealDish> getById(@PathVariable Long id) {
+//        SetmealDish setmealDish = setmealDishService.getById(id);
+//        if (setmealDish != null) {
+//            return R.success(setmealDish);
+//        }
+//        return R.error("找不到套餐");
+//    }
 }
