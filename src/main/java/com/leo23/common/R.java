@@ -2,6 +2,7 @@ package com.leo23.common;
 
 import lombok.Data;
 
+import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -11,7 +12,7 @@ import java.util.Map;
  * @param <T>
  */
 @Data
-public class R<T> {
+public class R<T> implements Serializable {
     // 1 成功，0和其他数字失败
     private Integer code;
     // 错误信息
