@@ -6,6 +6,7 @@ import com.leo23.entity.User;
 import com.leo23.service.UserService;
 import com.leo23.utils.SMSUtils;
 import com.leo23.utils.ValidateCodeUtils;
+import io.swagger.annotations.Api;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.data.redis.core.RedisTemplate;
@@ -21,6 +22,7 @@ import java.util.concurrent.TimeUnit;
 
 @RestController
 @RequestMapping("/user")
+@Api(value = "用户登录")
 @Slf4j
 public class UserController {
     @Resource

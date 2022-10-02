@@ -10,6 +10,10 @@ import com.leo23.entity.DishFlavor;
 import com.leo23.service.CategoryService;
 import com.leo23.service.DishFlavorService;
 import com.leo23.service.DishService;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
+import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.data.redis.core.RedisTemplate;
@@ -22,12 +26,10 @@ import java.util.Set;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
-/**
- * 菜品管理
- */
 @RestController
 @RequestMapping("/dish")
 @Slf4j
+@Api(tags = "菜品管理")
 public class DishController {
     @Resource
     private DishService dishService;
@@ -45,6 +47,7 @@ public class DishController {
      * @return
      */
     @PostMapping
+    @ApiOperation(value = "新增菜品")
     public R<String> save(@RequestBody DishDto dishDto) {
         dishService.saveWithFlavor(dishDto);
         // 清理某个分类下面菜品缓存数据
@@ -62,6 +65,12 @@ public class DishController {
      * @return
      */
     @GetMapping("/page")
+    @ApiOperation("菜品信息分页查询")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "page", value = "页码", required = true),
+            @ApiImplicitParam(name = "pageSize", value = "每页记录数", required = true),
+            @ApiImplicitParam(name = "name", value = "套餐名称", required = false),
+    })
     public R<Page> page(int page, int pageSize, String name) {
         // 分页构造器对象
         Page<Dish> pageInfo = new Page<>(page, pageSize);
