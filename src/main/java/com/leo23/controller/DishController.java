@@ -1,5 +1,6 @@
 package com.leo23.controller;
 
+import com.alibaba.excel.EasyExcelFactory;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.leo23.common.R;
@@ -10,6 +11,7 @@ import com.leo23.entity.DishFlavor;
 import com.leo23.service.CategoryService;
 import com.leo23.service.DishFlavorService;
 import com.leo23.service.DishService;
+import com.leo23.vo.DishSimpleVo;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
@@ -20,6 +22,11 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
@@ -187,14 +194,11 @@ public class DishController {
 
         return R.success(dishDtoList);
     }
-//    @GetMapping("/list")
-//    public R<List<Dish>> list(Dish dish) {
-//        LambdaQueryWrapper<Dish> wrapper = new LambdaQueryWrapper<>();
-//        wrapper.eq(dish.getCategoryId() != null, Dish::getCategoryId, dish.getCategoryId());
-//        // 在售状态
-//        wrapper.eq(Dish::getStatus, 1);
-//        wrapper.orderByAsc(Dish::getSort).orderByDesc(Dish::getUpdateTime);
-//        List<Dish> list = dishService.list(wrapper);
-//        return R.success(list);
-//    }
+
+
+
+    @GetMapping("/export")
+    public void downloadExcel(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        dishService.downloadExcel(request, response);
+    }
 }

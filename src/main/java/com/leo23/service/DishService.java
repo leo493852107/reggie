@@ -4,6 +4,9 @@ import com.baomidou.mybatisplus.extension.service.IService;
 import com.leo23.dto.DishDto;
 import com.leo23.entity.Dish;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 public interface DishService extends IService<Dish> {
     // 新增菜品，同时插入菜品口味 dish, dish_flavor
     public void saveWithFlavor(DishDto dishDto);
@@ -16,4 +19,8 @@ public interface DishService extends IService<Dish> {
 
     // 1.删除口味信息 2.删除菜品信息
     public void deleteWithFlavor(Long ids);
+
+    // 下载excel
+    // https://blog.csdn.net/weixin_42675423/article/details/125633311
+    void downloadExcel(HttpServletRequest request, HttpServletResponse response);
 }
